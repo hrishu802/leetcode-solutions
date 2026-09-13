@@ -8,5 +8,5 @@ class Solution:
                     l.append(j)
                     return l
                     break
-            if nums[i]+nums[j]==target:
+            if nums[j]+nums[i]==target:
                 break
