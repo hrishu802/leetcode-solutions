@@ -1,19 +1,27 @@
-class Solution:
-    def findMedianSortedArrays(self, nums1, nums2):
-        arr = [0] * (len(nums1) + len(nums2))
-        j = 0
+            -1, l // 2)) / 2
 
-        for i in nums1:
-            arr[j] = i
-            j += 1
+    def get_val_at_idx(self, i, j, k, l, idx):
+        if i > j:
+            return self.b[k+idx]
+        if k > l:
+            return self.a[i+idx]
 
-        for i in nums2:
-            arr[j] = i
-            j += 1
+        idx_a = (j-i+1) // 2
+        idx_b = (l-k+1) // 2
 
-        arr.sort()
+        ma = self.a[i+idx_a]
+        mb = self.b[k+idx_b]
+        
+        if ma > mb:
+            i, k = k, i
+            j, l = l, j
+            idx_a, idx_b = idx_b, idx_a
+            ma, mb = mb, ma
+            self.a, self.b = self.b, self.a
 
-        if len(arr) % 2 == 0:
-            return (arr[len(arr) // 2] + arr[len(arr) // 2 - 1]) / 2
+        max_idx_ma = idx_a + idx_b
+
+        if max_idx_ma < idx:
+            return self.get_val_at_idx(i+idx_a+1, j, k, l, idx - (idx_a + 1))
         else:
-            return arr[len(arr) // 2]
+            return self.get_val_at_idx(i, j, k, k+idx_b-1, idx)
